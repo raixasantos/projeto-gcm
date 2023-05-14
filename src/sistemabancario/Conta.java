@@ -23,4 +23,9 @@ public class Conta {
         this.saldo += valor;
         return saldo;
     }
+
+    public double debitar(double valor) {
+        this.saldo -= valor;
+        return saldo;
+    }
 }
