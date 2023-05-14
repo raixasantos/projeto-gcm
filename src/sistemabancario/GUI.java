@@ -84,6 +84,37 @@ public class GUI {
         return -1;
     }
 
+    public static double transferencia(List<Conta> contas) {
+        limparConsole(); 
+        System.out.print("Digite o número da conta de origem: ");
+        int identificadorOrigem = scanner.nextInt();
+        Conta contaOrigem = null;
+        for(Conta cont : contas) {
+            if (cont.identificador() == identificadorOrigem) {
+                contaOrigem = cont;
+            }
+        }
+        System.out.print("Digite o número da conta de destino: ");
+        int identificadorDestino = scanner.nextInt();
+        Conta contaDestino = null;
+        for(Conta cont : contas) {
+            if (cont.identificador() == identificadorDestino) {
+                contaDestino = cont;
+            }
+        }
+        System.out.print("Digite o valor que deseja: ");
+        double valor = scanner.nextDouble();
+        if(contaOrigem != null && contaDestino != null ) {
+            contaDestino.creditar(valor);
+            double saldo = contaOrigem.debitar(valor);
+            limparConsole();
+            return saldo;
+        }
+
+        limparConsole();
+        return -1;
+    }
+
     public static void exibirAssinatura() {
         System.out.println("=============================");
         System.out.println("        Banco GCM            ");
@@ -103,6 +134,7 @@ public class GUI {
                 System.out.println("2 - Consultar saldo");
                 System.out.println("3 - Crédito");
                 System.out.println("4 - Débito");
+                System.out.println("5 - Transferência");
                 break;
             case 1:
                 System.out.println("1 - Outras operações");
@@ -162,6 +194,15 @@ public class GUI {
                                 break;
                             }
                             System.out.println("Operação realizada com sucesso.\nO saldo da sua conta é: " + saldo);
+                            break;
+                        case "5":
+                            saldo = transferencia(contas);
+                            scanner.nextLine();
+                            if (saldo == -1) {
+                                System.out.println("Conta inválida!");
+                                break;
+                            }
+                            System.out.println("Operação realizada com sucesso.\nO saldo da conta de origem é: " + saldo);
                             break;
                         case "0":
                             exibirDespedida();
