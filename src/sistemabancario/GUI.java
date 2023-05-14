@@ -40,6 +40,28 @@ public class GUI {
         return -1;
     }
 
+    public static double credito(List<Conta> contas) {
+        limparConsole(); 
+        System.out.print("Digite o número da conta: ");
+        int identificador = scanner.nextInt();
+        Conta conta = null;
+        for(Conta cont : contas) {
+            if (cont.identificador() == identificador) {
+                conta = cont;
+            }
+        }
+        System.out.print("Digite o valor que deseja: ");
+        double valor = scanner.nextDouble();
+        if(conta != null) {
+            double saldo = conta.creditar(valor);
+            limparConsole();
+            return saldo;
+        }
+
+        limparConsole();
+        return -1;
+    }
+
     public static void exibirAssinatura() {
         System.out.println("=============================");
         System.out.println("        Banco GCM            ");
@@ -57,6 +79,7 @@ public class GUI {
             case 0:
                 System.out.println("1 - Cadastrar nova conta");
                 System.out.println("2 - Consultar saldo");
+                System.out.println("3 - Crédito");
                 break;
             case 1:
                 System.out.println("1 - Outras operações");
@@ -74,6 +97,8 @@ public class GUI {
             exibirOpcoesMenu();
             escolha = scanner.nextLine();
 
+            double saldo;
+
             limparConsole();
 
             switch (paginaMenu) {
@@ -87,17 +112,24 @@ public class GUI {
                                 break;
                             contas.add(conta);
                             System.out.println("Dados inseridos com sucesso.");
-                            // paginaMenu++;
                             break;
                         case "2":
-                            double saldo = consultarSaldo(contas);
+                            saldo = consultarSaldo(contas);
                             scanner.nextLine();
                             if (saldo == -1) {
                                 System.out.println("Conta inválida!");
                                 break;
                             }
                             System.out.println("O saldo da sua conta é: " + saldo);
-                            // paginaMenu++;
+                            break;
+                        case "3":
+                            saldo = credito(contas);
+                            scanner.nextLine();
+                            if (saldo == -1) {
+                                System.out.println("Conta inválida!");
+                                break;
+                            }
+                            System.out.println("Operação realizada com sucesso.\nO saldo da sua conta é: " + saldo);
                             break;
                         case "0":
                             exibirDespedida();

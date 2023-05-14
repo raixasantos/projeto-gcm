@@ -11,7 +11,6 @@ public class Conta {
         this.saldo = 0.0;
     }
 
-
     public int identificador() {
         return this.identificador;
     }
@@ -20,4 +19,8 @@ public class Conta {
         return this.saldo;
     }
 
+    public double creditar(double valor) {
+        this.saldo += valor;
+        return saldo;
+    }
 }
