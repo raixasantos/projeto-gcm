@@ -52,7 +52,7 @@ public class GUI {
         }
         System.out.print("Digite o valor que deseja: ");
         double valor = scanner.nextDouble();
-        if(conta != null) {
+        if(conta != null && valor >0) {
             double saldo = conta.creditar(valor);
             limparConsole();
             return saldo;
@@ -74,7 +74,7 @@ public class GUI {
         }
         System.out.print("Digite o valor que deseja: ");
         double valor = scanner.nextDouble();
-        if(conta != null && conta.saldo() > 0) {
+        if(conta != null && conta.saldo() > 0 && valor > 0) {
             double saldo = conta.debitar(valor);
             limparConsole();
             return saldo;
@@ -104,7 +104,8 @@ public class GUI {
         }
         System.out.print("Digite o valor que deseja: ");
         double valor = scanner.nextDouble();
-        if(contaOrigem != null && contaOrigem.saldo() > 0 && contaDestino != null ) {
+        if(contaOrigem != null && contaOrigem.saldo() > 0 && contaDestino != null
+                && valor > 0) {
             contaDestino.creditar(valor);
             double saldo = contaOrigem.debitar(valor);
             limparConsole();
