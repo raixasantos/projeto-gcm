@@ -107,6 +107,9 @@ public class GUI {
         if(contaOrigem != null && contaOrigem.saldo() > 0 && contaDestino != null
                 && valor > 0) {
             contaDestino.creditar(valor);
+            if(contaDestino.pontuacao >= 10){
+                contaDestino.pontuacao -= (int)(valor/200);
+            }
             double saldo = contaOrigem.debitar(valor);
             limparConsole();
             return saldo;
@@ -136,6 +139,7 @@ public class GUI {
                 System.out.println("3 - Crédito");
                 System.out.println("4 - Débito");
                 System.out.println("5 - Transferência");
+                System.out.println("6 - Cadastrar nova conta bônus");
                 break;
             case 1:
                 System.out.println("1 - Outras operações");
@@ -204,6 +208,16 @@ public class GUI {
                                 break;
                             }
                             System.out.println("Operação realizada com sucesso.\nO saldo da conta de origem é: " + saldo);
+                            break;
+                        case "6":
+                            Conta contaBonus = new Conta();
+                            contaBonus = cadastrarConta();
+                            contaBonus.pontuacao = 10;
+                            scanner.nextLine();
+                            if (contaBonus == null)
+                                break;
+                            contas.add(contaBonus);
+                            System.out.println("Dados inseridos com sucesso.");
                             break;
                         case "0":
                             exibirDespedida();
