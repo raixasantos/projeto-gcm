@@ -4,6 +4,8 @@ public class Conta {
     private int identificador;
     private double saldo;
     public int pontuacao;
+    public boolean ehPoupanca;
+
 
     public Conta() {}
 
@@ -11,6 +13,7 @@ public class Conta {
         this.identificador = identificador;
         this.saldo = 0.0;
         this.pontuacao = -1;
+        this.ehPoupanca = false;
     }
 
     public int identificador() {

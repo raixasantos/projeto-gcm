@@ -119,6 +119,31 @@ public class GUI {
         return -1;
     }
 
+    public static double renderJuros(List<Conta> contas) {
+        limparConsole(); 
+        System.out.print("Digite o número da conta: ");
+        int identificador = scanner.nextInt();
+        Conta conta = null;
+        for(Conta cont : contas) {
+            if (cont.identificador() == identificador) {
+                conta = cont;
+            }
+        }
+        if(!conta.ehPoupanca)
+            return -1;
+
+        System.out.print("Digite o juros que deseja aplicar: ");
+        double juros = scanner.nextDouble();
+        if(conta != null && conta.saldo() > 0 && juros > 0) {
+            double saldo = conta.creditar(conta.saldo()*(juros/100));
+            limparConsole();
+            return saldo;
+        }
+
+        limparConsole();
+        return -1;
+    }
+
     public static void exibirAssinatura() {
         System.out.println("=============================");
         System.out.println("        Banco GCM            ");
@@ -140,6 +165,8 @@ public class GUI {
                 System.out.println("4 - Débito");
                 System.out.println("5 - Transferência");
                 System.out.println("6 - Cadastrar nova conta bônus");
+                System.out.println("7 - Cadastrar nova conta poupança");
+                System.out.println("8 - Render Juros em Poupança");
                 break;
             case 1:
                 System.out.println("1 - Outras operações");
@@ -218,6 +245,25 @@ public class GUI {
                                 break;
                             contas.add(contaBonus);
                             System.out.println("Dados inseridos com sucesso.");
+                            break;
+                        case "7":
+                            Conta contaPoupanca= new Conta();
+                            contaPoupanca = cadastrarConta();
+                            contaPoupanca.ehPoupanca = true;
+                            scanner.nextLine();
+                            if (contaPoupanca == null)
+                                break;
+                            contas.add(contaPoupanca);
+                            System.out.println("Dados inseridos com sucesso.");
+                            break;
+                        case "8":
+                            saldo = renderJuros(contas);
+                            scanner.nextLine();
+                            if (saldo == -1) {
+                                System.out.println("Conta inválida ou inválida para a operação!");
+                                break;
+                            }
+                            System.out.println("O saldo da sua conta é: " + saldo);
                             break;
                         case "0":
                             exibirDespedida();
