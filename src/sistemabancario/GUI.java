@@ -74,7 +74,7 @@ public class GUI {
         }
         System.out.print("Digite o valor que deseja: ");
         double valor = scanner.nextDouble();
-        if(conta != null) {
+        if(conta != null && conta.saldo() > 0) {
             double saldo = conta.debitar(valor);
             limparConsole();
             return saldo;
@@ -104,7 +104,7 @@ public class GUI {
         }
         System.out.print("Digite o valor que deseja: ");
         double valor = scanner.nextDouble();
-        if(contaOrigem != null && contaDestino != null ) {
+        if(contaOrigem != null && contaOrigem.saldo() > 0 && contaDestino != null ) {
             contaDestino.creditar(valor);
             double saldo = contaOrigem.debitar(valor);
             limparConsole();
@@ -190,7 +190,7 @@ public class GUI {
                             saldo = debito(contas);
                             scanner.nextLine();
                             if (saldo == -1) {
-                                System.out.println("Conta inválida!");
+                                System.out.println("Conta inválida ou saldo insuficiente!");
                                 break;
                             }
                             System.out.println("Operação realizada com sucesso.\nO saldo da sua conta é: " + saldo);
@@ -199,7 +199,7 @@ public class GUI {
                             saldo = transferencia(contas);
                             scanner.nextLine();
                             if (saldo == -1) {
-                                System.out.println("Conta inválida!");
+                                System.out.println("Conta inválida ou saldo insuficiente!");
                                 break;
                             }
                             System.out.println("Operação realizada com sucesso.\nO saldo da conta de origem é: " + saldo);
