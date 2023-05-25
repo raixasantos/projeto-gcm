@@ -24,6 +24,10 @@ public class Conta {
         return this.saldo;
     }
 
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
     public double creditar(double valor) {
         this.saldo += valor;
         if(pontuacao >= 10)
