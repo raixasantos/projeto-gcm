@@ -250,7 +250,10 @@ public class GUI {
                             Conta contaPoupanca= new Conta();
                             contaPoupanca = cadastrarConta();
                             contaPoupanca.ehPoupanca = true;
+                            System.out.print("Informe um saldo inicial para sua conta poupança: ");
+                            contaPoupanca.saldo = scanner.nextDouble();
                             scanner.nextLine();
+                            limparConsole();
                             if (contaPoupanca == null)
                                 break;
                             contas.add(contaPoupanca);

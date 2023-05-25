@@ -2,7 +2,7 @@ package sistemabancario;
 
 public class Conta {
     private int identificador;
-    private double saldo;
+    public double saldo;
     public int pontuacao;
     public boolean ehPoupanca;
 
