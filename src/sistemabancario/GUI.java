@@ -163,6 +163,8 @@ public class GUI {
                         case "1":
                             Conta conta = new Conta();
                             conta = cadastrarConta();
+                            System.out.print("Informe um saldo inicial para sua conta: ");
+                            conta.setSaldo(scanner.nextDouble());
                             scanner.nextLine();
                             if (conta == null)
                                 break;
