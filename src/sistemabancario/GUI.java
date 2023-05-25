@@ -74,6 +74,9 @@ public class GUI {
         }
         System.out.print("Digite o valor que deseja: ");
         double valor = scanner.nextDouble();
+        if(conta.ehPoupanca == false)
+            if(conta.saldo() - valor < -1000)
+                return -1;
         if(conta != null && conta.saldo() > 0 && valor > 0) {
             double saldo = conta.debitar(valor);
             limparConsole();
