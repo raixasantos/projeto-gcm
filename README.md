@@ -9,3 +9,7 @@ Este repositório contém um projeto de desenvolvimento de um sistema bancário 
 - Transferência: Permite transferir um valor de uma conta bancária para outra, atualizando os saldos das contas de origem e destino.
 
 Certifique-se de ter os pré-requisitos necessários instalados antes de executar o projeto.
+
+## Desenvolvedores
+- [Angelo Sales](https://github.com/AngeloGustavo) 
+- [Raíssa Santos](https://github.com/raixasantos)
