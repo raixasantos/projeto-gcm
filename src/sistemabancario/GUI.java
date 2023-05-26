@@ -74,6 +74,9 @@ public class GUI {
         }
         System.out.print("Digite o valor que deseja: ");
         double valor = scanner.nextDouble();
+        if(conta.ehPoupanca == false)
+            if(conta.saldo() - valor < -1000)
+                return -1;
         if(conta != null && conta.saldo() > 0 && valor > 0) {
             double saldo = conta.debitar(valor);
             limparConsole();
@@ -107,7 +110,35 @@ public class GUI {
         if(contaOrigem != null && contaOrigem.saldo() > 0 && contaDestino != null
                 && valor > 0) {
             contaDestino.creditar(valor);
+            if(contaDestino.pontuacao >= 10){
+                contaDestino.pontuacao -= (int)(valor/300);
+            }
             double saldo = contaOrigem.debitar(valor);
+            limparConsole();
+            return saldo;
+        }
+
+        limparConsole();
+        return -1;
+    }
+
+    public static double renderJuros(List<Conta> contas) {
+        limparConsole(); 
+        System.out.print("Digite o número da conta: ");
+        int identificador = scanner.nextInt();
+        Conta conta = null;
+        for(Conta cont : contas) {
+            if (cont.identificador() == identificador) {
+                conta = cont;
+            }
+        }
+        if(!conta.ehPoupanca)
+            return -1;
+
+        System.out.print("Digite o juros que deseja aplicar: ");
+        double juros = scanner.nextDouble();
+        if(conta != null && conta.saldo() > 0 && juros > 0) {
+            double saldo = conta.creditar(conta.saldo()*(juros/100));
             limparConsole();
             return saldo;
         }
@@ -136,6 +167,9 @@ public class GUI {
                 System.out.println("3 - Crédito");
                 System.out.println("4 - Débito");
                 System.out.println("5 - Transferência");
+                System.out.println("6 - Cadastrar nova conta bônus");
+                System.out.println("7 - Cadastrar nova conta poupança");
+                System.out.println("8 - Render Juros em Poupança");
                 break;
             case 1:
                 System.out.println("1 - Outras operações");
@@ -206,6 +240,38 @@ public class GUI {
                                 break;
                             }
                             System.out.println("Operação realizada com sucesso.\nO saldo da conta de origem é: " + saldo);
+                            break;
+                        case "6":
+                            Conta contaBonus = new Conta();
+                            contaBonus = cadastrarConta();
+                            contaBonus.pontuacao = 10;
+                            scanner.nextLine();
+                            if (contaBonus == null)
+                                break;
+                            contas.add(contaBonus);
+                            System.out.println("Dados inseridos com sucesso.");
+                            break;
+                        case "7":
+                            Conta contaPoupanca= new Conta();
+                            contaPoupanca = cadastrarConta();
+                            contaPoupanca.ehPoupanca = true;
+                            System.out.print("Informe um saldo inicial para sua conta poupança: ");
+                            contaPoupanca.saldo = scanner.nextDouble();
+                            scanner.nextLine();
+                            limparConsole();
+                            if (contaPoupanca == null)
+                                break;
+                            contas.add(contaPoupanca);
+                            System.out.println("Dados inseridos com sucesso.");
+                            break;
+                        case "8":
+                            saldo = renderJuros(contas);
+                            scanner.nextLine();
+                            if (saldo == -1) {
+                                System.out.println("Conta inválida ou inválida para a operação!");
+                                break;
+                            }
+                            System.out.println("O saldo da sua conta é: " + saldo);
                             break;
                         case "0":
                             exibirDespedida();
