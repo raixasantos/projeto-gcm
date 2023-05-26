@@ -108,7 +108,7 @@ public class GUI {
                 && valor > 0) {
             contaDestino.creditar(valor);
             if(contaDestino.pontuacao >= 10){
-                contaDestino.pontuacao -= (int)(valor/200);
+                contaDestino.pontuacao -= (int)(valor/300);
             }
             double saldo = contaOrigem.debitar(valor);
             limparConsole();
