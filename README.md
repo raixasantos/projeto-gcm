@@ -14,6 +14,7 @@ Certifique-se de ter os pré-requisitos necessários instalados antes de executa
 
 No presente projeto, utilizamos como fluxo de trabalho o GitFlow. Para tanto, inicialmente criamos as branches master e develop, conforme foi necessário também fomos criando as branches auxiliares, as branches de novas funcionalidades, as features-* ; as branches de release, as release-*, além adicionar tags nas versões candidatas a release e nas versões lançadas.
 Segue abaixo uma imagem com um trecho do histórico do repositório:
+![Arvore do Projeto](img/arvore.JPG)
 
 ## Desenvolvedores
 - [Angelo Sales](https://github.com/AngeloGustavo) 
