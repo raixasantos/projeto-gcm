@@ -10,6 +10,11 @@ Este repositório contém um projeto de desenvolvimento de um sistema bancário 
 
 Certifique-se de ter os pré-requisitos necessários instalados antes de executar o projeto.
 
+### Fluxo de trabalho
+
+No presente projeto, utilizamos como fluxo de trabalho o GitFlow. Para tanto, inicialmente criamos as branches master e develop, conforme foi necessário também fomos criando as branches auxiliares, as branches de novas funcionalidades, as features-* ; as branches de release, as release-*, além adicionar tags nas versões candidatas a release e nas versões lançadas.
+Segue abaixo uma imagem com um trecho do histórico do repositório:
+
 ## Desenvolvedores
 - [Angelo Sales](https://github.com/AngeloGustavo) 
 - [Raíssa Santos](https://github.com/raixasantos)
