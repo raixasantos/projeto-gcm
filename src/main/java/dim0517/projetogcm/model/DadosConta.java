@@ -1,5 +1,6 @@
 package dim0517.projetogcm.model;
 
+import dim0517.projetogcm.enums.TipoConta;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class DadosConta {
     private double saldo;
     private int pontuacao;
-    private boolean ehPoupanca;    
+    private TipoConta tipo;    
 }

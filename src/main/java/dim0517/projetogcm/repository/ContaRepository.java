@@ -1,56 +1,59 @@
 package dim0517.projetogcm.repository;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import dim0517.projetogcm.model.Conta;
+import org.springframework.stereotype.Repository;
 
+import dim0517.projetogcm.enums.TipoConta;
+import dim0517.projetogcm.model.Conta;
+import dim0517.projetogcm.model.DadosConta;
+import dim0517.projetogcm.model.NovaConta;
+import dim0517.projetogcm.model.Saldo;
+
+@Repository
 public class ContaRepository {
     private Map<Integer, Conta> contas = new HashMap<>();
+
+    public Conta criarConta(NovaConta novaConta) {
+        Conta conta = new Conta(novaConta.getIdentificador(), novaConta.getSaldo(), 0, novaConta.getTipo());
+        return contas.put(conta.getIdentificador(), conta);
+    }
     
-    public Conta findById(int id){
+    public boolean findById(int id){
         if (contas.containsKey(id)) {
-            return contas.get(id);
+            return true;
         }
-        return null;
+        return false;
     }
 
-    public double saldo() {
-        return this.saldo;
+    public Saldo consultarSaldo(int idConta) {
+        return new Saldo(contas.get(idConta).getSaldo());
     }
 
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
+    public double consultaDeSaldo(int idConta) {
+        return contas.get(idConta).getSaldo();
     }
 
-    public double creditar(double valor) {
-        this.saldo += valor;
-        if(pontuacao >= 10)
-            pontuacao += (int)(valor/100);
-        return saldo;
+    public DadosConta consultarDados(int idConta) {
+        Conta conta = contas.get(idConta);
+        return new DadosConta(conta.getSaldo(), conta.getPontuacao(), conta.getTipo());
     }
 
-    public double debitar(double valor) {
-        this.saldo -= valor;
-        return saldo;
+    public double creditar(int idConta, double valor) {
+        Conta conta = contas.get(idConta);
+        double saldoAtual = conta.getSaldo();
+        contas.get(idConta).setSaldo(saldoAtual + valor);
+        int pontuacaoAtual = contas.get(idConta).getPontuacao();
+        if(conta.getPontuacao() >= 10 && conta.getTipo() == TipoConta.BONUS)
+            contas.get(idConta).setPontuacao(pontuacaoAtual + (int)(valor/100));
+        return contas.get(idConta).getSaldo();
     }
 
-    public String getDados(){
-        String tipo = "";
-        if(pontuacao > -1){
-            tipo = "Bônus";
-        }
-        else if(ehPoupanca){
-            tipo = "Poupança";
-        }
-        else{
-            tipo = "Simples";
-        }
-
-        String retorno = "Tipo: "+tipo+"\nNúmero: "+identificador+"\nSaldo: "+saldo;
-        if(pontuacao > -1)
-            retorno += "\nBônus: "+pontuacao;
-        return retorno;
+    public double debitar(int idConta, double valor) {
+        Conta conta = contas.get(idConta);
+        double saldoAtual = conta.getSaldo();
+        contas.get(idConta).setSaldo(saldoAtual - valor);
+        return contas.get(idConta).getSaldo();
     }
 }
