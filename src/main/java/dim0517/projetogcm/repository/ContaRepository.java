@@ -1,23 +1,19 @@
-package sistemabancario;
+package dim0517.projetogcm.repository;
 
-public class Conta {
-    private int identificador;
-    public double saldo;
-    public int pontuacao;
-    public boolean ehPoupanca;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import dim0517.projetogcm.model.Conta;
 
-    public Conta() {}
-
-    public Conta(int identificador) {
-        this.identificador = identificador;
-        this.saldo = 0.0;
-        this.pontuacao = -1;
-        this.ehPoupanca = false;
-    }
-
-    public int identificador() {
-        return this.identificador;
+public class ContaRepository {
+    private Map<Integer, Conta> contas = new HashMap<>();
+    
+    public Conta findById(int id){
+        if (contas.containsKey(id)) {
+            return contas.get(id);
+        }
+        return null;
     }
 
     public double saldo() {
