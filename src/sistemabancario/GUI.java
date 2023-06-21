@@ -40,6 +40,20 @@ public class GUI {
         return -1;
     }
 
+    public static String consultarDados(List<Conta> contas) {
+        limparConsole(); 
+        System.out.print("Digite o número da conta: ");
+        int identificador = scanner.nextInt();
+        for(Conta cont : contas) {
+            if (cont.identificador() == identificador) {
+                return cont.getDados();
+            }
+        }
+        limparConsole();
+
+        return "";
+    }
+
     public static double credito(List<Conta> contas) {
         limparConsole(); 
         System.out.print("Digite o número da conta: ");
@@ -170,6 +184,7 @@ public class GUI {
                 System.out.println("6 - Cadastrar nova conta bônus");
                 System.out.println("7 - Cadastrar nova conta poupança");
                 System.out.println("8 - Render Juros em Poupança");
+                System.out.println("9 - Consultar dados de conta");
                 break;
             case 1:
                 System.out.println("1 - Outras operações");
@@ -272,6 +287,11 @@ public class GUI {
                                 break;
                             }
                             System.out.println("O saldo da sua conta é: " + saldo);
+                            break;
+                        case "9":
+                            String dados = consultarDados(contas);
+                            scanner.nextLine();                           
+                            System.out.println(dados);
                             break;
                         case "0":
                             exibirDespedida();
