@@ -11,7 +11,7 @@ import dim0517.projetogcm.repository.ContaRepository;
 @Service
 public class ContaService {
     @Autowired
-    private ContaRepository contaRepository;
+    private ContaRepository contaRepository = new ContaRepository();
 
     String contaNaoEncontrada = "Conta(s) não encontrada(s).";
 

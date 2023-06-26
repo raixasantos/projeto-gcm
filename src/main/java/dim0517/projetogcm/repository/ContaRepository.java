@@ -16,7 +16,11 @@ public class ContaRepository {
     private Map<Integer, Conta> contas = new HashMap<>();
 
     public Conta criarConta(NovaConta novaConta) {
-        Conta conta = new Conta(novaConta.getIdentificador(), novaConta.getSaldo(), 0, novaConta.getTipo());
+        int pontuacao = 0;
+        if(novaConta.getTipo() == TipoConta.BONUS){
+            pontuacao = 10;
+        }
+        Conta conta = new Conta(novaConta.getIdentificador(), novaConta.getSaldo(), pontuacao, novaConta.getTipo());
         return contas.put(conta.getIdentificador(), conta);
     }
     
