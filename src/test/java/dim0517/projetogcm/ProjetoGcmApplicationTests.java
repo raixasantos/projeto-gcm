@@ -65,4 +65,88 @@ class ProjetoGcmApplicationTests {
 		Saldo saldoEsperado = new Saldo(100); 
 		assertEquals(saida, saldoEsperado);
 	}
+	@Test
+	void testeCreditoNormal() {
+		NovaConta conta = new NovaConta(1, 100, TipoConta.SIMPLES);
+		contaService.criarConta(conta);
+		contaService.creditar(1, 100);
+		Saldo saida = contaService.consultarSaldo(1);
+		Saldo saldoEsperado = new Saldo(200); 
+		assertEquals(saida, saldoEsperado);
+	}
+	@Test
+	void testeCreditoNegativo() {
+		NovaConta conta = new NovaConta(1, 100, TipoConta.SIMPLES);
+		contaService.criarConta(conta);
+		String saida = contaService.creditar(1, -100);
+		String saidaEsperada = "Valor negativo não é permitido!";
+		assertEquals(saida, saidaEsperada);
+	}
+	@Test
+	void testeCreditoBonus() {
+		NovaConta conta = new NovaConta(1, 100, TipoConta.BONUS);
+		contaService.criarConta(conta);
+		contaService.creditar(1, 500);
+		int saida = contaService.consultarDados(1).getPontuacao();
+		int pontuacaoEsperada = 15;
+		assertEquals(saida, pontuacaoEsperada);
+	}
+	@Test
+	void testeDebitoNormal() {
+		NovaConta conta = new NovaConta(1, 100, TipoConta.SIMPLES);
+		contaService.criarConta(conta);
+		contaService.debitar(1, 100);
+		Saldo saida = contaService.consultarSaldo(1);
+		Saldo saldoEsperado = new Saldo(0); 
+		assertEquals(saida, saldoEsperado);
+	}
+	@Test
+	void testeDebitoNegativo() {
+		NovaConta conta = new NovaConta(1, 100, TipoConta.SIMPLES);
+		contaService.criarConta(conta);
+		String saida = contaService.debitar(1, -100);
+		String saidaEsperada = "Valor negativo não é permitido!";
+		assertEquals(saida, saidaEsperada);
+	}
+	@Test
+	void testeTransferenciaNegativo() {
+		NovaConta conta1 = new NovaConta(1, 100, TipoConta.SIMPLES);
+		NovaConta conta2 = new NovaConta(2, 100, TipoConta.SIMPLES);
+		contaService.criarConta(conta1);
+		contaService.criarConta(conta2);
+		String saida = contaService.transferir(1,2, -100);
+		String saidaEsperada = "Valor negativo não é permitido!";
+		assertEquals(saida, saidaEsperada);
+	}
+	@Test
+	void testeTransferenciaOrigemNegativo() {
+		NovaConta conta1 = new NovaConta(1, 50, TipoConta.SIMPLES);
+		NovaConta conta2 = new NovaConta(2, 100, TipoConta.SIMPLES);
+		contaService.criarConta(conta1);
+		contaService.criarConta(conta2);
+		String saida = contaService.transferir(1,2, 100);
+		String saidaEsperada = "Valor maior do que o disponível na conta de origem!";
+		assertEquals(saida, saidaEsperada);
+	}
+	// @Test
+	// void testeTransferenciaBonus() {
+	// 	NovaConta conta1 = new NovaConta(1, 100, TipoConta.BONUS);
+	// 	NovaConta conta2 = new NovaConta(2, 100, TipoConta.SIMPLES);
+	// 	contaService.criarConta(conta1);
+	// 	contaService.criarConta(conta2);
+	// 	String saida = contaService.transferir(1,2, 100);
+	// 	String saidaEsperada = "Valor maior do que o disponível na conta de origem!";
+	// 	assertEquals(saida, saidaEsperada);
+	// }
+	// @Test
+	// void testeRendimento() {
+	// 	NovaConta conta1 = new NovaConta(1, 100, TipoConta.SIMPLES);
+	// 	NovaConta conta2 = new NovaConta(2, 100, TipoConta.SIMPLES);
+	// 	contaService.criarConta(conta1);
+	// 	contaService.criarConta(conta2);
+	// 	contaService.transferir(1,2, 750);
+	// 	int saida = contaService.consultarDados(1).getPontuacao();
+	// 	int pontuacaoEsperada = 15;
+	// 	assertEquals(saida, pontuacaoEsperada);
+	// }
 }

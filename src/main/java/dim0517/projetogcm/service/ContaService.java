@@ -38,7 +38,10 @@ public class ContaService {
     }
 
     public String creditar(int idConta, double valor) {
-        if (contaRepository.findById(idConta)) {
+        if(valor < 0){
+            return "Valor negativo não é permitido!";
+        }
+        if (contaRepository.findById(idConta) == false) {
             return contaNaoEncontrada;
         }
         contaRepository.creditar(idConta, valor);
@@ -46,7 +49,10 @@ public class ContaService {
     }
 
     public String debitar(int idConta, double valor) {
-        if (contaRepository.findById(idConta)) {
+        if(valor < 0){
+            return "Valor negativo não é permitido!";
+        }
+        if (contaRepository.findById(idConta) == false) {
             return contaNaoEncontrada;
         }
         contaRepository.debitar(idConta, valor);
@@ -54,19 +60,27 @@ public class ContaService {
     }
 
     public String transferir(int idOrigem, int idDestino, double valor) {
-        if (contaRepository.findById(idOrigem) && contaRepository.findById(idDestino)) {
+        if(valor < 0){
+            return "Valor negativo não é permitido!";
+        }
+        if (contaRepository.findById(idOrigem) == false && contaRepository.findById(idDestino) == false) {
             return contaNaoEncontrada;
+        }
+        if(consultarSaldo(idOrigem).getSaldoAtual() < valor){
+            return "Valor maior do que o disponível na conta de origem!";
         }
         contaRepository.debitar(idOrigem, valor);
         contaRepository.creditar(idDestino, valor);
+        contaRepository.bonificar(idDestino, (int)Math.floor(valor/300));
         return "Valor transferido na conta!";
     }
 
     public String renderJuros(int idConta, double valor) {
-        if (contaRepository.findById(idConta)) {
+        if (contaRepository.findById(idConta) == false) {
             return contaNaoEncontrada;
         }
         contaRepository.creditar(idConta, contaRepository.consultaDeSaldo(idConta)*(valor/100));
         return "Valor de juros aplicado na conta!";
     }
+    //contaRepository.bonificar(idConta, pontos);
 }

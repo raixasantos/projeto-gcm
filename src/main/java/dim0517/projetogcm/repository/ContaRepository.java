@@ -60,4 +60,10 @@ public class ContaRepository {
         contas.get(idConta).setSaldo(saldoAtual - valor);
         return contas.get(idConta).getSaldo();
     }
+
+    public void bonificar(int idConta, int pontos) {
+        Conta conta = contas.get(idConta);
+        int pontuacaoAtual = conta.getPontuacao();
+        conta.setPontuacao(pontuacaoAtual += pontos);
+    }
 }
