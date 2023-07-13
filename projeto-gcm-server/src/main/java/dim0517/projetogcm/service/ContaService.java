@@ -71,7 +71,7 @@ public class ContaService {
         }
         contaRepository.debitar(idOrigem, valor);
         contaRepository.creditar(idDestino, valor);
-        contaRepository.bonificar(idDestino, (int)Math.floor(valor/300));
+        // contaRepository.bonificar(idDestino, (int)Math.floor(valor/300));
         return "Valor transferido na conta!";
     }
 

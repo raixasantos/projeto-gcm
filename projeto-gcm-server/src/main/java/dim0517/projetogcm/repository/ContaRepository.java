@@ -48,9 +48,11 @@ public class ContaRepository {
         Conta conta = contas.get(idConta);
         double saldoAtual = conta.getSaldo();
         contas.get(idConta).setSaldo(saldoAtual + valor);
+
         int pontuacaoAtual = contas.get(idConta).getPontuacao();
         if(conta.getPontuacao() >= 10 && conta.getTipo() == TipoConta.BONUS)
             contas.get(idConta).setPontuacao(pontuacaoAtual + (int)(valor/100));
+
         return contas.get(idConta).getSaldo();
     }
 
