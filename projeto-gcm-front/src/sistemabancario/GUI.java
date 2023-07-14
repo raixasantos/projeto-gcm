@@ -2,6 +2,12 @@ package sistemabancario;
 
 import java.util.List;
 import java.util.Scanner;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+
 
 public class GUI {
     private static Integer paginaMenu;
@@ -11,8 +17,8 @@ public class GUI {
     GUI() {}
 
     public static void limparConsole() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        // System.out.print("\033[H\033[2J");
+        // System.out.flush();
     }
 
     public static Conta cadastrarConta() {
@@ -38,6 +44,20 @@ public class GUI {
         limparConsole();
 
         return -1;
+    }
+
+    public static String consultarDados(List<Conta> contas) {
+        limparConsole(); 
+        System.out.print("Digite o número da conta: ");
+        int identificador = scanner.nextInt();
+        for(Conta cont : contas) {
+            if (cont.identificador() == identificador) {
+                return cont.getDados();
+            }
+        }
+        limparConsole();
+
+        return "";
     }
 
     public static double credito(List<Conta> contas) {
@@ -170,6 +190,7 @@ public class GUI {
                 System.out.println("6 - Cadastrar nova conta bônus");
                 System.out.println("7 - Cadastrar nova conta poupança");
                 System.out.println("8 - Render Juros em Poupança");
+                System.out.println("9 - Consultar dados de conta");
                 break;
             case 1:
                 System.out.println("1 - Outras operações");
@@ -195,24 +216,63 @@ public class GUI {
                 case 0:
                     switch (escolha) {
                         case "1":
-                            Conta conta = new Conta();
-                            conta = cadastrarConta();
+                            int identificador;
+                            limparConsole();
+                            System.out.print("Digite o número da nova conta: ");
+                            identificador = scanner.nextInt();
+                            limparConsole();
                             System.out.print("Informe um saldo inicial para sua conta: ");
-                            conta.setSaldo(scanner.nextDouble());
-                            scanner.nextLine();
-                            if (conta == null)
-                                break;
-                            contas.add(conta);
+                            saldo = scanner.nextDouble();
+                            try {
+                                URL url = new URL("http://127.0.0.1:8080/contas");
+                                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                connection.setRequestMethod("POST");
+                                connection.setRequestProperty("Content-Type", "application/json");
+                                String requestBody = "{\"identificador\":" + identificador + ", \"saldo\":" + saldo + ", \"tipo\":\"SIMPLES\"}";
+                                connection.setDoOutput(true);
+                                DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
+                                outputStream.writeBytes(requestBody);
+                                outputStream.flush();
+                                outputStream.close();
+                                int responseCode = connection.getResponseCode();
+                                System.out.println("Código de resposta: " + responseCode);
+                                connection.disconnect();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            
                             System.out.println("Dados inseridos com sucesso.");
                             break;
+                        
                         case "2":
-                            saldo = consultarSaldo(contas);
-                            scanner.nextLine();
-                            if (saldo == -1) {
-                                System.out.println("Conta inválida!");
-                                break;
+                            limparConsole(); 
+                            System.out.print("Digite o número da conta: ");
+                            identificador = scanner.nextInt();
+                            try {
+                                
+                                String urlString = "http://127.0.0.1:8080/contas/"+ identificador;
+                                URL url = new URL(urlString);
+                                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                connection.setRequestMethod("GET");
+                                int responseCode = connection.getResponseCode();
+                                BufferedReader reader;
+                                if (responseCode == HttpURLConnection.HTTP_OK) {
+                                    reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                                } else {
+                                    reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                                }
+                                String line;
+                                StringBuilder response = new StringBuilder();
+                                while ((line = reader.readLine()) != null) {
+                                    response.append(line);
+                                }
+                                reader.close();
+                                connection.disconnect();
+                                System.out.println("O saldo da sua conta é: "+response.toString());
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                            System.out.println("O saldo da sua conta é: " + saldo);
+
                             break;
                         case "3":
                             saldo = credito(contas);
@@ -272,6 +332,11 @@ public class GUI {
                                 break;
                             }
                             System.out.println("O saldo da sua conta é: " + saldo);
+                            break;
+                        case "9":
+                            String dados = consultarDados(contas);
+                            scanner.nextLine();                           
+                            System.out.println(dados);
                             break;
                         case "0":
                             exibirDespedida();
