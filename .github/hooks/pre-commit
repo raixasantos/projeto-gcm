@@ -1,0 +1,17 @@
+#!/bin/bash
+
+commit_message=$(cat "$1")
+
+if ! [[ $commit_message =~ ^\#([0-9]+)\ –\ .* ]]; then
+    echo "A mensagem de commit não segue o formato correto. Por favor, inclua o número da issue no formato '#NUM_ISSUE – MENSAGEM'." >&2
+    exit 1
+fi
+
+issue_number=$(echo "$commit_message" | sed -n -E 's/^\#([0-9]+)\ .*$/\1/p')
+response=$(curl -s "https://api.github.com/repos/raixasantos/projeto-gcm/issues/$issue_number")
+if [[ $(echo "$response" | jq -r '.message') == "Not Found" ]]; then
+    echo "A issue #$issue_number não existe no repositório do GitHub." >&2
+    exit 1
+fi
+
+exit 0
