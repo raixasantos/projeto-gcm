@@ -8,7 +8,8 @@ Este repositório contém um projeto de desenvolvimento de um sistema bancário 
 - Débito: Permite subtrair um valor do saldo de uma conta bancária, representando uma operação de débito.
 - Transferência: Permite transferir um valor de uma conta bancária para outra, atualizando os saldos das contas de origem e destino.
 
-Certifique-se de ter os pré-requisitos necessários instalados antes de executar o projeto.
+Certifique-se de ter os pré-requisitos necessários listados abaixo instalados antes de executar o projeto:
+- Java 11.0.16
 
 ### Fluxo de trabalho
 

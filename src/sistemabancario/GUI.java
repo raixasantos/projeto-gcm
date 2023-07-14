@@ -91,6 +91,9 @@ public class GUI {
         if(conta.ehPoupanca == false)
             if(conta.saldo() - valor < -1000)
                 return -1;
+        if(conta.ehPoupanca == false)
+            if(conta.saldo() - valor < -1000)
+                return -1;
         if(conta != null && conta.saldo() > 0 && valor > 0) {
             double saldo = conta.debitar(valor);
             limparConsole();
@@ -128,6 +131,31 @@ public class GUI {
                 contaDestino.pontuacao -= (int)(valor/300);
             }
             double saldo = contaOrigem.debitar(valor);
+            limparConsole();
+            return saldo;
+        }
+
+        limparConsole();
+        return -1;
+    }
+
+    public static double renderJuros(List<Conta> contas) {
+        limparConsole(); 
+        System.out.print("Digite o número da conta: ");
+        int identificador = scanner.nextInt();
+        Conta conta = null;
+        for(Conta cont : contas) {
+            if (cont.identificador() == identificador) {
+                conta = cont;
+            }
+        }
+        if(!conta.ehPoupanca)
+            return -1;
+
+        System.out.print("Digite o juros que deseja aplicar: ");
+        double juros = scanner.nextDouble();
+        if(conta != null && conta.saldo() > 0 && juros > 0) {
+            double saldo = conta.creditar(conta.saldo()*(juros/100));
             limparConsole();
             return saldo;
         }
@@ -212,6 +240,8 @@ public class GUI {
                         case "1":
                             Conta conta = new Conta();
                             conta = cadastrarConta();
+                            System.out.print("Informe um saldo inicial para sua conta: ");
+                            conta.setSaldo(scanner.nextDouble());
                             System.out.print("Informe um saldo inicial para sua conta: ");
                             conta.setSaldo(scanner.nextDouble());
                             scanner.nextLine();
