@@ -9,7 +9,7 @@ public class GUI {
     private static String escolha;
 
     GUI() { 
-        
+
     }
 
     public static void limparConsole() {
@@ -66,7 +66,6 @@ public class GUI {
                 conta = cont;
             }
         }
-        System.out.print("Digite o valor que deseja: ");
         double valor = scanner.nextDouble();
         if(conta != null && valor >0) {
             double saldo = conta.creditar(valor);
