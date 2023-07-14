@@ -8,7 +8,9 @@ public class GUI {
     private static Scanner scanner = new Scanner(System.in);
     private static String escolha;
 
-    GUI() {}
+    GUI() { 
+        
+    }
 
     public static void limparConsole() {
         System.out.print("\033[H\033[2J");
