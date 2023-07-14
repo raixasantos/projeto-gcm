@@ -39,4 +39,22 @@ public class Conta {
         this.saldo -= valor;
         return saldo;
     }
+
+    public String getDados(){
+        String tipo = "";
+        if(pontuacao > -1){
+            tipo = "Bônus";
+        }
+        else if(ehPoupanca){
+            tipo = "Poupança";
+        }
+        else{
+            tipo = "Simples";
+        }
+
+        String retorno = "Tipo: "+tipo+"\nNúmero: "+identificador+"\nSaldo: "+saldo;
+        if(pontuacao > -1)
+            retorno += "\nBônus: "+pontuacao;
+        return retorno;
+    }
 }
