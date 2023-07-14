@@ -24,10 +24,10 @@ jobs:
       working-directory: ./projeto-gcm-server
       run: mvn clean verify
 
-    - name: Quality
-      uses: axel-op/googlejavaformat-action@v3
-      with:
-        args: "--skip-sorting-imports --replace"
+    #- name: Quality
+    #  uses: axel-op/googlejavaformat-action@v3
+    #  with:
+    #    args: "--skip-sorting-imports --replace"
     
     - name: Testing
       working-directory: ./projeto-gcm-server
