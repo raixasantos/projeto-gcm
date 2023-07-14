@@ -1,0 +1,46 @@
+name: Publish release candidate
+
+on:
+  push:
+    tags:
+      - rc-*
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+        
+    - name: Build
+      working-directory: ./projeto-gcm-server
+      run: mvn clean verify
+
+    - name: Quality
+      uses: axel-op/googlejavaformat-action@v3
+      with:
+        args: "--skip-sorting-imports --replace"
+    
+    - name: Testing
+      working-directory: ./projeto-gcm-server
+      run: mvn test 
+
+    - name: Compress files
+      run: |
+        git fetch
+        git checkout release-2.2
+        zip -r projetogcm.zip projeto-gcm-server/
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with: 
+        name: projetogcm
+        path: projetogcm.zip
